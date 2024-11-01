@@ -15,7 +15,7 @@ public class NPCJill : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            messageBox.ShowMultilineMessage("Hi, I'm Jill! \nI live here in the town.\nHave you been here long? \nI ran out of things to say.");
+            messageBox.ShowMultilineMessage("Hi, I'm Jill! \nI live here in the town. \nHave you been here long? \nI ran out of things to say. ");
         }
     }
 
