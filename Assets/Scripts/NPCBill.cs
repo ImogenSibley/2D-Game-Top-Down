@@ -7,10 +7,12 @@ public class NPCBill : MonoBehaviour
 {
     MessageDisplay messageBox;
     Inventory inventory;
+    GameObject stone;
 
     void Start()
     {
         messageBox = GameObject.Find("MessageHandler").GetComponent<MessageDisplay>();
+        stone = GameObject.Find("Stone");
     }
     
     void OnTriggerEnter2D(Collider2D collision)
@@ -20,7 +22,7 @@ public class NPCBill : MonoBehaviour
             inventory = collision.gameObject.GetComponent<Inventory>();
             bool hasScroll = inventory.GetCount("Scroll") > 0;
             bool hasPotion = inventory.GetCount("Potion") > 0;
-            if (!hasScroll && !hasPotion)
+            if (!hasScroll && !hasPotion && stone.activeSelf == true)
             {
                 messageBox.ShowMultilineMessage
                     (
@@ -49,7 +51,7 @@ public class NPCBill : MonoBehaviour
         if (answer)
         {
             // find the stone in the world
-            GameObject stone = GameObject.Find("Stone");
+            //GameObject stone = GameObject.Find("Stone");
             GameObject stoneParent = GameObject.Find("Stone Parent");
             Destroy(stone);
             stoneParent.transform.GetChild(1).gameObject.SetActive(true);
