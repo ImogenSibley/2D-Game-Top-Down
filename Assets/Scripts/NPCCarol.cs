@@ -11,6 +11,7 @@ public class NPCCarol : MonoBehaviour
 {
     MessageDisplay messageBox;
     Inventory inventory;
+
     void Start()
     {
         messageBox = GameObject.Find("MessageHandler").GetComponent<MessageDisplay>();

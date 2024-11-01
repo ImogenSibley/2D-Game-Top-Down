@@ -6,27 +6,20 @@ using UnityEngine;
 public class NPCBill : MonoBehaviour
 {
     MessageDisplay messageBox;
+    Inventory inventory;
 
     void Start()
     {
         messageBox = GameObject.Find("MessageHandler").GetComponent<MessageDisplay>();
     }
-    void MagicCallback(bool answer)
-    {
-        if (answer)
-        {
-            // find the stone in the world
-            GameObject stone = GameObject.Find("Stone");
-            Destroy(stone);
-        }
-    }
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            Inventory inv = collision.gameObject.GetComponent<Inventory>();
-            bool hasScroll = inv.GetCount("Scroll") > 0;
-            bool hasPotion = inv.GetCount("Potion") > 0;
+            inventory = collision.gameObject.GetComponent<Inventory>();
+            bool hasScroll = inventory.GetCount("Scroll") > 0;
+            bool hasPotion = inventory.GetCount("Potion") > 0;
             if (!hasScroll && !hasPotion)
             {
                 messageBox.ShowMultilineMessage
@@ -48,6 +41,30 @@ public class NPCBill : MonoBehaviour
             {
                 messageBox.YesNoMessage("Aha, you have the magic to move the stone. Would you like to quaff the potion and read the scroll ? ", MagicCallback);
             }
+        }
+    }
+
+    void MagicCallback(bool answer)
+    {
+        if (answer)
+        {
+            // find the stone in the world
+            GameObject stone = GameObject.Find("Stone");
+            GameObject stoneParent = GameObject.Find("Stone Parent");
+            Destroy(stone);
+            stoneParent.transform.GetChild(1).gameObject.SetActive(true);
+
+            inventory.Remove("Scroll", -1); //use up scroll and potion
+            inventory.Remove("Potion", -1);
+
+        }
+        else //if player says no
+        {
+            messageBox.ShowMultilineMessage
+             (
+             "I guess you'll never cross the river.\n" +
+             "Good luck then."
+             );
         }
     }
 
